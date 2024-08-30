@@ -1,16 +1,17 @@
 import { logRoles } from '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App';
-import { expect } from 'vitest';
+import { describe, expect } from 'vitest';
+import { kebabCaseToTitleCase } from './helpers';
 
 test('button flow check', () => {
   const { container } = render(<App />);
   // logRoles(container);
   const btnEl = screen.getByRole('button', { name: /blue/i }); // 버튼 존재와 문구 확인
-  expect(btnEl).toHaveClass('red'); // class 확인
+  expect(btnEl).toHaveClass('medium-violet-red'); // class 확인
   fireEvent.click(btnEl); // 클릭 시뮬레이션
   expect(btnEl).toHaveTextContent(/red/i); // red 문구 확인
-  expect(btnEl).toHaveClass('blue'); // class 확인
+  expect(btnEl).toHaveClass('midnight-blue'); // class 확인
   // expect(btnEl).toHaveStyle({ 'background-color': 'blue' });
 });
 
@@ -32,4 +33,16 @@ test('checkbox flow check', () => {
 
   fireEvent.click(checkBoxEl);
   expect(btnEl).toBeEnabled();
+});
+
+describe('kebabCaseToTitleCase', () => {
+  test('문구에 하이픈 없을 경우', () => {
+    expect(kebabCaseToTitleCase('red').toBe('red'));
+  });
+  test('문구에 하이픈이 하나만 있는지 체크', () => {
+    expect(kebabCaseToTitleCase('midnight-blue').toBe('Midnight Blue'));
+  });
+  test('문구에 하이픈이 두개 이상 있는지 체크', () => {
+    expect(kebabCaseToTitleCase('medium-violet-red').toBe('Medium Violet Red'));
+  });
 });
