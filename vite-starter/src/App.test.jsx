@@ -1,8 +1,10 @@
-import { render, screen } from "@testing-library/react";
-import App from "./App";
+import { logRoles } from '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import App from './App';
 
-test("App contains correct heading", () => {
-  render(<App />);
-  const headingElement = screen.getByText(/learn react/i);
-  expect(headingElement).toBeInTheDocument();
+test('button > 올바른 색상과 문구인지 체크', () => {
+  const { container } = render(<App />);
+  logRoles(container);
+  const btnEl = screen.getByRole('button', { name: /blue/i });
+  expect(btnEl).toHaveClass('red');
 });
